@@ -1,5 +1,5 @@
 {
-  "name": "node-scripts",
+  "name": "@yinpo/node-scripts",
   "version": "0.0.1",
   "description": "some common node scripts, like version-check, export-all and etc.",
   "main": "index.js",
@@ -18,6 +18,9 @@
     "scripts",
     "node"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "yinpo",
   "license": "ISC",
   "bugs": {
