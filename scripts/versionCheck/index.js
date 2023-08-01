@@ -33,7 +33,7 @@ module.exports = function (projectPath) {
   // 比较版本号
   if (currentVersion === latestVersion) {
     // 版本一致，不能执行push操作
-    console.log(chalk.red.bold('\nThe local version is already up to date. please update package version before push!\n'));
+    console.log(chalk.red.bold('\nThe local version is already not up to date. please update package version before push!\n'));
     process.exit(1)
   }
 }
