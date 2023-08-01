@@ -2,7 +2,7 @@
 
 const childProcess = require('child_process');
 const chalk = require('chalk');
-const path = require('path');
+const path = require('node:path');
 
 /**
  * 检查当前

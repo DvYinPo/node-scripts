@@ -14,7 +14,10 @@
     "type": "git",
     "url": "git+https://github.com/DvYinPo/node-scripts.git"
   },
-  "keywords": ["scripts", "node"],
+  "keywords": [
+    "scripts",
+    "node"
+  ],
   "author": "yinpo",
   "license": "ISC",
   "bugs": {
@@ -22,6 +25,7 @@
   },
   "homepage": "https://github.com/DvYinPo/node-scripts#readme",
   "devDependencies": {
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.0",
+    "child_process": "^1.0.2"
   }
 }
