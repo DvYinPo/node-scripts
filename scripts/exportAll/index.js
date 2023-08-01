@@ -47,6 +47,9 @@ module.exports = function (projectPath, srcPath, mode = "esm") {
   if (Array.isArray(projectPath)) projectPath = path.resolve(...projectPath)
 
   srcPath = srcPath.trim().replace(/\/$/, '').trim()
+  if (!srcPath.startsWith('./') && !srcPath.startsWith('../')) {
+    srcPath = './' + srcPath
+  }
 
   const isTS = isTypeScriptProject(projectPath)
   const indexFileName = isTS ? 'index.ts' : 'index.js'
