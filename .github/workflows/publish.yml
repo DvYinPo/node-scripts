@@ -24,6 +24,9 @@ jobs:
       - name: Install deps
         run: npm ci
 
+      - name: Build Package
+        run: npm run build
+
       - name: Publish package
         run: npm publish
         env:

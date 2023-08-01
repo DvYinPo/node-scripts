@@ -4,7 +4,8 @@
   "description": "some common node scripts, like version-check, export-all and etc.",
   "main": "index.js",
   "scripts": {
-    "generate": "node generate.js"
+    "generate": "node generate.js",
+    "build": "node generate.js"
   },
   "files": [
     "scripts",
