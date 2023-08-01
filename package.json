@@ -1,0 +1,27 @@
+{
+  "name": "node-scripts",
+  "version": "0.0.1",
+  "description": "some common node scripts, like version-check, export-all and etc.",
+  "main": "index.js",
+  "scripts": {
+    "generate": "node generate.js"
+  },
+  "files": [
+    "scripts",
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DvYinPo/node-scripts.git"
+  },
+  "keywords": ["scripts", "node"],
+  "author": "yinpo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DvYinPo/node-scripts/issues"
+  },
+  "homepage": "https://github.com/DvYinPo/node-scripts#readme",
+  "devDependencies": {
+    "chalk": "^4.1.0"
+  }
+}
