@@ -10,7 +10,7 @@ const path = require('node:path');
  * @returns void
  */
 module.exports = function (projectPath) {
-  if (!projectDir) {
+  if (!projectPath) {
     console.log(chalk.red.bold('require project path!!!'))
     process.exit(1)
     return
