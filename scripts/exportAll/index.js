@@ -33,7 +33,7 @@ function isTypeScriptProject(projectDir) {
  * 例如：在根目录下 projectPath=__dirname srcPath='./src'
  * 则会将./src中的所有index.js或index.ts的遍历一遍，获取所有导出并生成./index.js或./index.ts
  *
- * @param {string} projectPath 当前项目路径一般以project.json的所在目录为准
+ * @param {string | Array} projectPath 当前项目路径一般以project.json的所在目录为准
  * @param {string} srcPath 基于projectPath的相对路径
  * @param {'esm' | 'cjs'} mode 模块化规范
  * @returns void
@@ -41,8 +41,10 @@ function isTypeScriptProject(projectDir) {
 module.exports = function (projectPath, srcPath, mode = "esm") {
   if (!['esm', 'cjs'].includes(mode)) {
     console.log(chalk.red.bold('mode must be esm or cjs!!!'))
-    return false
+    return
   }
+
+  if (Array.isArray(projectPath)) projectPath = path.resolve(...projectPath)
 
   srcPath = srcPath.trim().replace(/\/$/, '').trim()
 
@@ -50,6 +52,11 @@ module.exports = function (projectPath, srcPath, mode = "esm") {
   const indexFileName = isTS ? 'index.ts' : 'index.js'
 
   const srcDir = path.resolve(projectPath, srcPath)
+
+  if (!fs.existsSync(srcDir)) {
+    console.log(chalk.red.bold(`no such file or directory!!!\n=> ${srcDir}`));
+    return
+  }
 
   const files = fs.readdirSync(srcDir)
   const exportContent = files.reduce((content, file) => {

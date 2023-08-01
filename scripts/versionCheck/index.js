@@ -6,7 +6,7 @@ const path = require('node:path');
 
 /**
  * 检查当前
- * @param {string} projectPath 当前项目根目录
+ * @param {string | Array} projectPath 当前项目根目录
  * @returns void
  */
 module.exports = function (projectPath) {
@@ -15,6 +15,8 @@ module.exports = function (projectPath) {
     process.exit(1)
     return
   }
+
+  if (Array.isArray(projectPath)) projectPath = path.resolve(...projectPath)
 
   // 获取当前版本号
   const packageJSON = require(path.resolve(projectPath, './package.json'));
