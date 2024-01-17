@@ -6,15 +6,15 @@
   "scripts": {
     "prepare": "husky install",
     "generate": "node generate.js",
-    "build": "node generate.js"
+    "build": "node generate.js && rollup -c",
+    "pub": "npm version patch"
   },
   "files": [
-    "scripts",
-    "index.js"
+    "dist"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DvYinPo/node-scripts.git"
+    "url": "git+https://github.com/JF-Just-Fun/node-scripts.git"
   },
   "keywords": [
     "scripts",
@@ -26,12 +26,14 @@
   "author": "yinpo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DvYinPo/node-scripts/issues"
+    "url": "https://github.com/JF-Just-Fun/node-scripts/issues"
   },
-  "homepage": "https://github.com/DvYinPo/node-scripts#readme",
+  "homepage": "https://github.com/JF-Just-Fun/node-scripts#readme",
   "devDependencies": {
-    "chalk": "^4.1.0",
-    "child_process": "^1.0.2",
-    "husky": "^8.0.3"
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "husky": "^8.0.3",
+    "rollup": "^4.9.5"
   }
 }

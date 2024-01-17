@@ -3,11 +3,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const url = require('node:url')
-const chalk = require('chalk')
 
 function isTypeScriptProject(projectDir) {
   if (!projectDir) {
-    console.log(chalk.red.bold('require project dir!!!'))
+    console.log('require project dir!!!')
     return false
   }
 
@@ -40,7 +39,7 @@ function isTypeScriptProject(projectDir) {
  */
 module.exports = function (projectPath, srcPath, mode = "esm") {
   if (!['esm', 'cjs'].includes(mode)) {
-    console.log(chalk.red.bold('mode must be esm or cjs!!!'))
+    console.log('mode must be esm or cjs!!!')
     return
   }
 
@@ -57,7 +56,7 @@ module.exports = function (projectPath, srcPath, mode = "esm") {
   const srcDir = path.resolve(projectPath, srcPath)
 
   if (!fs.existsSync(srcDir)) {
-    console.log(chalk.red.bold(`no such file or directory!!!\n=> ${srcDir}`));
+    console.log(`no such file or directory!!!\n=> ${srcDir}`);
     return
   }
 
@@ -68,28 +67,33 @@ module.exports = function (projectPath, srcPath, mode = "esm") {
       const indexTS = fs.existsSync(path.resolve(fileDir, 'index.ts'));
       const indexJS = fs.existsSync(path.resolve(fileDir, 'index.js'));
 
-      let indexFilePath = ''
+      const indexFilePaths = []
       if (indexTS) {
-        indexFilePath = path.resolve(fileDir, 'index.ts')
-      } else if (indexJS) {
-        indexFilePath = path.resolve(fileDir, 'index.js')
-      } else {
-        return content
+        indexFilePaths.push(path.resolve(fileDir, 'index.ts'))
+      }
+      if (indexJS) {
+        indexFilePaths.push(path.resolve(fileDir, 'index.js'))
       }
 
-      if (mode === 'esm') {
-        content += `export * from '${srcPath}/${file}';\n`
-
+      indexFilePaths.forEach(indexFilePath => {
         // 读取文件内容
         const fileContent = fs.readFileSync(indexFilePath, 'utf-8');
-        const hasDefaultExport = fileContent.includes('export default')
 
-        if (hasDefaultExport) {
-          content += `export { default as ${file} } from '${srcPath}/${file}';\n`
+        if (mode === 'esm') {
+          content += `export * from '${srcPath}/${file}';\n`
+
+          // 读取文件内容
+          const hasDefaultExport = fileContent.includes('export default')
+          if (hasDefaultExport) {
+            content += `export { default as ${file} } from '${srcPath}/${file}';\n`
+          }
+        } else {
+          content += `module.exports.${file} = require('${srcPath}/${file}');\n`
         }
-      } else {
-        content += `module.exports.${file} = require('${srcPath}/${file}');\n`
-      }
+      })
+    } else {
+      // todo: 读取文件内容，并输出所有导出
+      console.log('=> file', fileDir);
     }
 
     return content
