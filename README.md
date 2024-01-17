@@ -8,19 +8,23 @@ npm i -D @yinpo/node-scripts
 
 脚本目录：
 
-- [version check](#version-check)
-- [export all](#export-all)
+- [node script](#node-script)
+  - [installation](#installation)
+  - [version check](#version-check)
+  - [export all](#export-all)
 
 ## version check
 
-检查指定目录下package.json中的version字段是否有更新
+检查指定目录下package.json中的version字段是否有更新，如果当前version小于等于线上的version，则会返回错误码1。
 
 防止在`npm publish`进行自动发布时，被npm拦截。
+
+默认是拉取npm上对应name的包，也可以通过传递target参数指定github url进行对比。
 
 1. 参数
 
 ```ts
-function versionCheck(projectPathArr: string[]): void
+function versionCheck(projectPathArr: string[], target?: string): void
 ```
 
 `projectPathArr` 表示项目根路径
