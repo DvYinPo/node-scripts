@@ -3,11 +3,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const url = require('node:url')
-const chalk = require('chalk')
 
 function isTypeScriptProject(projectDir) {
   if (!projectDir) {
-    console.log(chalk.red.bold('require project dir!!!'))
+    console.log('require project dir!!!')
     return false
   }
 
@@ -40,7 +39,7 @@ function isTypeScriptProject(projectDir) {
  */
 module.exports = function (projectPath, srcPath, mode = "esm") {
   if (!['esm', 'cjs'].includes(mode)) {
-    console.log(chalk.red.bold('mode must be esm or cjs!!!'))
+    console.log('mode must be esm or cjs!!!')
     return
   }
 
@@ -57,7 +56,7 @@ module.exports = function (projectPath, srcPath, mode = "esm") {
   const srcDir = path.resolve(projectPath, srcPath)
 
   if (!fs.existsSync(srcDir)) {
-    console.log(chalk.red.bold(`no such file or directory!!!\n=> ${srcDir}`));
+    console.log(`no such file or directory!!!\n=> ${srcDir}`);
     return
   }
 
