@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "generate": "node generate.js",
     "build": "node generate.js && rollup -c",
-    "pub": ""
+    "pub": "npm version patch"
   },
   "files": [
     "dist"
