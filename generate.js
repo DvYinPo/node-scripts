@@ -1,1 +1,1 @@
-require('./scripts/exportAll')(__dirname, 'scripts', '.', 'cjs')
+require('./scripts/exportAll')(__dirname, 'scripts', 'src', 'cjs')

@@ -57,11 +57,9 @@ module.exports = function (projectPath, srcPath, targetPath = './', mode = "esm"
   const isTS = isTypeScriptProject(projectPath)
   const indexFileName = isTS ? 'index.ts' : 'index.js'
 
-  const targetPathFormat = targetPath.replace(/^(\.\/)|\//g, '')
-  const relativePath = srcPath.endsWith(targetPathFormat) ? targetPathFormat.split('/').map(p => '..') : []
-  const targetAbsolutPath = path.resolve(projectPath, ...relativePath, srcPath)
-  const targetRelativePath = path.join('.', srcPath, ...relativePath)
+  const filePath = path.resolve(projectPath, targetPath)
   const srcDir = path.resolve(projectPath, srcPath)
+  const relativePath = path.relative(filePath, srcDir)
 
   if (!fs.existsSync(srcDir)) {
     console.log(`no such file or directory!!!\n=> ${srcDir}`);
@@ -86,17 +84,18 @@ module.exports = function (projectPath, srcPath, targetPath = './', mode = "esm"
       indexFilePaths.forEach(indexFilePath => {
         // 读取文件内容
         const fileContent = fs.readFileSync(indexFilePath, 'utf-8');
+        const exportPath = path.join(relativePath, file).replaceAll('\\', '\/')
 
         if (mode === 'esm') {
-          content += `export * from '${targetRelativePath}/${file}';\n`
+          content += `export * from '${exportPath}';\n`
 
           // 读取文件内容
           const hasDefaultExport = fileContent.includes('export default')
           if (hasDefaultExport) {
-            content += `export { default as ${file} } from '${targetRelativePath}/${file}';\n`
+            content += `export { default as ${file} } from '${exportPath}';\n`
           }
         } else {
-          content += `module.exports.${file} = require('${targetRelativePath}/${file}');\n`
+          content += `module.exports.${file} = require('${exportPath}');\n`
         }
       })
     } else {
@@ -107,6 +106,6 @@ module.exports = function (projectPath, srcPath, targetPath = './', mode = "esm"
     return content
   }, '')
 
-  if (!fs.existsSync(targetAbsolutPath)) fs.mkdirSync(dirPath, { recursive: true });
-  fs.writeFileSync(path.resolve(targetAbsolutPath, indexFileName), exportContent, 'utf-8');
+  if (!fs.existsSync(filePath)) fs.mkdirSync(filePath, { recursive: true });
+  fs.writeFileSync(path.resolve(filePath, indexFileName), exportContent, 'utf-8');
 }
