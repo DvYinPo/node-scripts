@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const url = require('node:url');
 
-const getPlugin = () => [resolve({ preferBuiltins: true }), commonjs(), terser()]
+const getPlugin = () => [resolve({ preferBuiltins: true }), commonjs()]
 const getOutput = moduleName => [
   {
     file: `dist/${moduleName}/index.cjs.js`,

@@ -16,7 +16,8 @@ function isTypeScriptProject(projectDir) {
   let hasTypeScriptInPackageJson = false;
 
   if (packageJsonExists) {
-    const packageJson = require(packageJsonPath);
+    const packageData = fs.readFileSync(packageJsonPath, 'utf-8');
+    const packageJson = JSON.parse(packageData);
     // 检查 package.json 中是否有 typescript 依赖
     hasTypeScriptInPackageJson = packageJson.dependencies?.typescript || packageJson.devDependencies?.typescript;
   }
