@@ -9,11 +9,11 @@ const url = require('node:url');
 const getPlugin = () => [resolve({ preferBuiltins: true }), commonjs(), terser()]
 const getOutput = moduleName => [
   {
-    file: `dist/cjs/${moduleName}/index.js`,
+    file: `dist/${moduleName}/index.cjs.js`,
     format: 'cjs',
   },
   {
-    file: `dist/esm/${moduleName}/index.js`,
+    file: `dist/${moduleName}/index.esm.js`,
     format: 'esm',
   }
 ]

@@ -2,7 +2,7 @@
   "name": "@yinpo/node-scripts",
   "version": "0.0.8",
   "description": "some common node scripts, like version-check, export-all and etc.",
-  "main": "index.js",
+  "main": "dist/index.cjs.js",
   "scripts": {
     "prepare": "husky install",
     "generate": "node generate.js",
