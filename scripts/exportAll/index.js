@@ -29,15 +29,18 @@ function isTypeScriptProject(projectDir) {
 
 /**
  * 基于resolve(projectPath, srcPath)的路径，自动将该文件夹下的所有文件导出，合并到项目根目录下的index.js或index.ts中
+ *
  * 例如：在根目录下 projectPath=__dirname srcPath='./src'
+ *
  * 则会将./src中的所有index.js或index.ts的遍历一遍，获取所有导出并生成./index.js或./index.ts
  *
  * @param {string | Array} projectPath 当前项目路径一般以project.json的所在目录为准
  * @param {string} srcPath 基于projectPath的相对路径
- * @param {'esm' | 'cjs'} mode 模块化规范
+ * @param {string} targetPath optional 基于projectPath的相对路径
+ * @param {'esm' | 'cjs'} mode optional 模块化规范
  * @returns void
  */
-module.exports = function (projectPath, srcPath, mode = "esm") {
+module.exports = function (projectPath, srcPath, targetPath = './', mode = "esm") {
   if (!['esm', 'cjs'].includes(mode)) {
     console.log('mode must be esm or cjs!!!')
     return
@@ -99,5 +102,5 @@ module.exports = function (projectPath, srcPath, mode = "esm") {
     return content
   }, '')
 
-  fs.writeFileSync(path.resolve(projectPath, indexFileName), exportContent, 'utf-8');
+  fs.writeFileSync(path.resolve(projectPath, targetPath, indexFileName), exportContent, 'utf-8');
 }
