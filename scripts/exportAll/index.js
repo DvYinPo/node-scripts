@@ -57,6 +57,10 @@ module.exports = function (projectPath, srcPath, targetPath = './', mode = "esm"
   const isTS = isTypeScriptProject(projectPath)
   const indexFileName = isTS ? 'index.ts' : 'index.js'
 
+  const targetPathFormat = targetPath.replace(/^(\.\/)|\//g, '')
+  const relativePath = srcPath.endsWith(targetPathFormat) ? targetPathFormat.split('/').map(p => '..') : []
+  const targetAbsolutPath = path.resolve(projectPath, ...relativePath, srcPath)
+  const targetRelativePath = path.join('.', srcPath, ...relativePath)
   const srcDir = path.resolve(projectPath, srcPath)
 
   if (!fs.existsSync(srcDir)) {
@@ -84,15 +88,15 @@ module.exports = function (projectPath, srcPath, targetPath = './', mode = "esm"
         const fileContent = fs.readFileSync(indexFilePath, 'utf-8');
 
         if (mode === 'esm') {
-          content += `export * from '${srcPath}/${file}';\n`
+          content += `export * from '${targetRelativePath}/${file}';\n`
 
           // 读取文件内容
           const hasDefaultExport = fileContent.includes('export default')
           if (hasDefaultExport) {
-            content += `export { default as ${file} } from '${srcPath}/${file}';\n`
+            content += `export { default as ${file} } from '${targetRelativePath}/${file}';\n`
           }
         } else {
-          content += `module.exports.${file} = require('${srcPath}/${file}');\n`
+          content += `module.exports.${file} = require('${targetRelativePath}/${file}');\n`
         }
       })
     } else {
@@ -103,5 +107,6 @@ module.exports = function (projectPath, srcPath, targetPath = './', mode = "esm"
     return content
   }, '')
 
-  fs.writeFileSync(path.resolve(projectPath, targetPath, indexFileName), exportContent, 'utf-8');
+  if (!fs.existsSync(targetAbsolutPath)) fs.mkdirSync(dirPath, { recursive: true });
+  fs.writeFileSync(path.resolve(targetAbsolutPath, indexFileName), exportContent, 'utf-8');
 }
