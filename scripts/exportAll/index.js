@@ -84,7 +84,8 @@ module.exports = function (projectPath, srcPath, targetPath = './', mode = "esm"
       indexFilePaths.forEach(indexFilePath => {
         // 读取文件内容
         const fileContent = fs.readFileSync(indexFilePath, 'utf-8');
-        const exportPath = path.join(relativePath, file).replaceAll('\\', '\/')
+        let exportPath = path.join('./', relativePath, file).replaceAll('\\', '\/')
+        if (!exportPath.startsWith('.')) exportPath = './' + exportPath
 
         if (mode === 'esm') {
           content += `export * from '${exportPath}';\n`
