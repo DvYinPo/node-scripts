@@ -1,6 +1,6 @@
 {
   "name": "@yinpo/node-scripts",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "some common node scripts, like version-check, export-all and etc.",
   "main": "dist/index.cjs.js",
   "scripts": {
